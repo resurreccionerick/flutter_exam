@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ✅ Widget for User Info Box
+  // Widget for User Info Box
   Widget _buildUserInfo(ApiProvider viewModel, user, BuildContext context) {
     return Container(
       width: double.infinity,
@@ -112,7 +112,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ✅ Widget for Social Media Buttons
+  // Widget for Social Media Buttons
   Widget _buildSocialButtons(BuildContext context, ApiProvider viewModel) {
     return Column(
       children: [
@@ -147,7 +147,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-// ✅ Widget for Social Media Button with Click Event
+// Widget for Social Media Button with Click Event
   Widget _iconButton(String name, String assetPath, BuildContext context,
       ApiProvider viewModel) {
     return Container(
@@ -165,7 +165,7 @@ class HomeScreen extends StatelessWidget {
         ),
         onPressed: () async {
           if (name != "Others") {
-            await viewModel.getSocials(); // Fetch data first
+            await viewModel.getSocials(); // Fetch data 
             final selectedSocial =
                 viewModel.social?.firstWhere((social) => social.name == name);
 
