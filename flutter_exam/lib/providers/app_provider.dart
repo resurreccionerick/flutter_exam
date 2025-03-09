@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_exam/api/api_service.dart';
+import 'package:flutter_exam/models/SocialsModel.dart';
 import 'package:flutter_exam/models/UserModel.dart';
 
 class ApiProvider with ChangeNotifier {
@@ -18,6 +19,7 @@ class ApiProvider with ChangeNotifier {
   bool _isEnterButtonEnabled = false;
 
   UserModel? _user;
+  List<SocialsModel>? _socials;
 
   String get username => _username;
   String get pin => _pin;
@@ -26,6 +28,7 @@ class ApiProvider with ChangeNotifier {
   String get successMessage => _successMessage;
   bool get isEnterButtonEnabled => _isEnterButtonEnabled;
   UserModel? get user => _user;
+  List<SocialsModel>? get social => _socials;
 
    void setUsername(String value) {
     _username = value;
@@ -83,13 +86,34 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> logout(VoidCallback onLogoutComplete) async {
     _isLoading = true;
+    
     notifyListeners(); 
 
     await Future.delayed(const Duration(seconds: 3));
 
     _isLoading = false;
+    _isEnterButtonEnabled = false;
     notifyListeners(); 
 
     onLogoutComplete();
+  }
+
+  Future<void> getSocials() async {
+    _isLoading = true;
+    notifyListeners(); // Show loading screen
+
+    try {
+      _socials = await apiService.getSocials();
+      if (_user != null && _user!.loginStatus == 'success') {
+        _successMessage = 'getSocials successful!';
+      } else {
+        _errorMessage = 'Something went wrong';
+      }
+    } catch (e) {
+      _errorMessage = 'Failed to get socials: $e';
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 }

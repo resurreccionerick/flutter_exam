@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       create: (_) => ApiProvider(locator<ApiService>()),
       child: MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter_exam/models/SocialsModel.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_exam/constants/api_endpoints.dart';
 import 'package:flutter_exam/models/UserModel.dart'; 
 import 'package:flutter_exam/api/api_service.dart'; 
-import 'login_test.mocks.dart';
+import 'app_test.mocks.dart';
 
 void main() {
   late MockClient mockClient;
@@ -17,8 +18,9 @@ void main() {
     apiService = ApiService(mockClient); 
   });
 
+/** -------------------------------------- LOGIN ----------------------------------------------------- **/
 
-  test('Login test if valid credentials', () async {
+  test('Login test sucess if valid credentials', () async {
       final mockResponse = '''
       {
         "userId": "123",
@@ -74,4 +76,37 @@ void main() {
           contains('Failed to login'), // Check the exception message
         )));
   });
+
+  /** -------------------------------------- SOCIALS ----------------------------------------------------- **/
+  test ('getSocial test success',() async{
+    final mockResponse = '''
+    [{
+      "name":"YouTube",
+      "webUrl": "https://youtube.com."
+    }]
+    ''';
+
+    when(mockClient.get(Uri.parse(ApiEndpoints.socials),headers: anyNamed("headers")))
+    .thenAnswer((_) async => http.Response(mockResponse, 200));
+
+    // Act
+    final result = await apiService.getSocials();
+
+    // Assert
+    expect(result, isA<List<SocialsModel>>());
+
+  });
+
+
+  
+    test('getSocial failed API call ', () async {
+      // Arrange
+      when(mockClient.get(
+        Uri.parse(ApiEndpoints.socials),
+        headers: anyNamed('headers'),
+      )).thenAnswer((_) async => http.Response('Not Found', 404));
+
+      // Act and Assert
+      expect(() => apiService.getSocials(), throwsException);
+    });
 }
