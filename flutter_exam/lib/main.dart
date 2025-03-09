@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_exam/di/setupLocator.dart';
 
 void main() {
+  setupLocator();
   runApp(const MyApp());
 }
 
