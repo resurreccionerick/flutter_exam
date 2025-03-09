@@ -86,6 +86,7 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> logout(VoidCallback onLogoutComplete) async {
     _isLoading = true;
+    _user = null;
     
     notifyListeners(); 
 
