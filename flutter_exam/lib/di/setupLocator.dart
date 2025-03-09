@@ -8,5 +8,4 @@ final GetIt locator = GetIt.instance;
 void setupLocator(){
   locator.registerLazySingleton(() => http.Client());
   locator.registerSingleton<ApiService>(ApiService(locator()));
-
 }
